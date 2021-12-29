@@ -1,13 +1,20 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: "./config.env" });
 
-const app = require('./app.js');
-const { bgGreen } = require('colors');
+const app = require("./app.js");
+const { bgGreen } = require("colors");
 
 const DB_LOCAL = process.env.DATABASE_LOCAL;
 console.log(`${DB_LOCAL}`.bgGreen.white);
+
+const DB = process.env.DATABASE.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD
+);
+
+console.log({ DB });
 
 const connectDB = async () => {
   try {
