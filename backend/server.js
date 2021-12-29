@@ -18,7 +18,7 @@ console.log({ DB });
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(DB_LOCAL, {
+    const conn = await mongoose.connect(DB, {
       useCreateIndex: true,
       useFindAndModify: false,
       useNewUrlParser: true,
