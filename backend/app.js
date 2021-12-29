@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser=');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const colors = require('colors');
 const AppError = require('./utils/appError');
@@ -9,9 +9,13 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
+const userRouter = require('./routes/userRoutes');
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+app.use('/api/v1/users', userRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -44,6 +48,6 @@ app.all('*', (req, res, next) => {
   );
 });
 
-app.use(globalEerrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import { login } from '../actions/userActions';
 import Modal from '../components/Modal';
-import Headers from '../components/Headers';
+// import Headers from '../components/Headers';
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState('');
@@ -11,9 +11,11 @@ const LoginScreen = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const redirect = location.search
-    ? location.search.split('=')[1]
-    : '/dashboard';
+  console.log(location);
+
+  // const redirect = location.search
+  //   ? location.search.split('=')[1]
+  //   : '/dashboard';
 
   console.log(location);
 
@@ -22,11 +24,11 @@ const LoginScreen = ({ location, history }) => {
   const { loading, error, userInfo } = userLogin;
   console.log({ error });
 
-  useEffect(() => {
-    if (userInfo) {
-      history.push(redirect);
-    }
-  }, [history, redirect, userInfo]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     history.push(redirect);
+  //   }
+  // }, [history, redirect, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,9 +39,12 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <>
-      <Headers />
+      {/* <Headers /> */}
       {error && <Modal error={error} value={'Sign in again'} url={'/login'} />}
-      <div className='min-h-screen bg-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+      <div
+        id='contact'
+        className='min-h-screen bg-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8'
+      >
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <NavLink to='/'>
             <span className='sr-only'>Coin Invest</span>

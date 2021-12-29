@@ -14,7 +14,6 @@
   "author": "Sodiq Farayola",
   "license": "MIT",
   "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.2.1",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "coinbase-commerce-node": "^1.0.4",
@@ -28,6 +27,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "purgecss": "^4.1.2",
+    "react-redux": "^7.2.6",
     "sharp": "^0.28.3",
     "validator": "^13.7.0"
   },

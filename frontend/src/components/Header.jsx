@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react';
+import { useLocation } from 'react-router';
 import { Popover, Transition } from '@headlessui/react';
 import { SearchIcon, ShoppingBagIcon } from '@heroicons/react/outline';
 
@@ -74,7 +75,7 @@ const navigation = {
   ],
   other: [
     { name: 'Home', href: '/' },
-    { name: 'Features', href: '/#' },
+    { name: 'Features', href: '/#features' },
     { name: 'About us', href: '/about' },
     { name: 'Contact us', href: '/contact' },
   ],
@@ -85,6 +86,9 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const location = useLocation();
+  console.log({ location });
+
   return (
     <div className='bg-white'>
       <header className='relative bg-white'>
@@ -271,7 +275,12 @@ export default function Example() {
                     <a
                       key={item.name}
                       href={item.href}
-                      className='target:text-indigo-600 target:border-indigo-600 active:text-indigo-600 active:border-indigo-600 flex items-center text-base lg:font-medium text-gray-700 hover:text-gray-800 lg:border-b'
+                      className={classNames(
+                        location.pathname === item.href
+                          ? 'text-indigo-600 border-b border-indigo-600'
+                          : 'lg:border-b',
+                        ' active:text-indigo-600 active:border-indigo-600 flex items-center text-base lg:font-medium text-gray-700 hover:text-gray-800'
+                      )}
                     >
                       {item.name}
                     </a>
@@ -280,25 +289,12 @@ export default function Example() {
               </Popover.Group>
 
               <div className='flex-1 flex items-center justify-end'>
-                {/* Search */}
-                <a href='#' className='p-2 text-gray-400 hover:text-gray-500'>
-                  <span className='sr-only'>Search</span>
-                  <SearchIcon className='w-6 h-6' aria-hidden='true' />
+                <a
+                  href='#'
+                  className='hidden text-base font-medium text-gray-700 hover:text-gray-800 hover:bg-indigo-600 hover:text-white hover:py-3 hover: px-3 hover:rounded-lg lg:block'
+                >
+                  Login
                 </a>
-
-                {/* Cart */}
-                <div className='ml-4 flow-root lg:ml-8'>
-                  <a href='#' className='group -m-2 p-2 flex items-center'>
-                    <ShoppingBagIcon
-                      className='flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500'
-                      aria-hidden='true'
-                    />
-                    <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-                      0
-                    </span>
-                    <span className='sr-only'>items in cart, view bag</span>
-                  </a>
-                </div>
               </div>
             </div>
           </div>

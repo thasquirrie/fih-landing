@@ -1,29 +1,25 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
-import logo from './logo.svg';
+import SignupScreen from './screens/SignupScreen';
 import './App.css';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <Router>
       <div className='bg-white'>
         <div className='relative overflow-hidden'>
-          {/* <Header /> */}
+          <Header />
           <main>
             <Routes>
-              {/* <Route path='/login' component={LoginScreen} />
-              <Route path='/signup' component={SignupScreen} /> */}
-              {/* <Route path='/dashboard' component={DashboardScreen} />
-              <Route path='/profile' component={ProfileScreen} />
-              <Route path='/pricing' component={PricingScreen} />
-              <Route path='/contact' component={ContactScreen} />
-              <Route path='/create-transaction' component={CreateTransaction} /> */}
+              <Route path='/signup' element={<SignupScreen />} />
               <Route path='/' element={<HomeScreen />} exact />
             </Routes>
           </main>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   );
 }

@@ -1,6 +1,6 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-// const USer = require('../models/User');
+const User = require('../models/User');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -37,27 +37,42 @@ const createSendToken = (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const {
     firstName,
-    middleName,
     lastName,
-    school,
-    grade,
-
-    email,
-    password,
-    confirmPasssword,
-    passwordChangedAt,
-  } = req.body;
-
-  const details = {
-    firstName,
-    middleName,
-    lastName,
-    school,
-    grade,
+    institution,
+    level,
+    state,
+    courseOfStudy,
+    areaOfSpecialization,
     email,
     password,
     confirmPassword,
     passwordChangedAt,
+    address,
+    city,
+    zip,
+    classLevel,
+    language,
+    schoolAddress,
+  } = req.body;
+
+  const details = {
+    firstName,
+    lastName,
+    institution,
+    level,
+    state,
+    courseOfStudy,
+    areaOfSpecialization,
+    email,
+    password,
+    confirmPassword,
+    passwordChangedAt,
+    address,
+    city,
+    zip,
+    classLevel,
+    language,
+    schoolAddress,
   };
 
   const newUser = await User.create(details);
@@ -65,7 +80,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res);
 });
 
-exports.login = catchAsync((req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || password)
     return next(new AppError('Please provide email and password', 400));
