@@ -1,20 +1,22 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import HomeScreen from './screens/HomeScreen';
-import SignupScreen from './screens/SignupScreen';
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import HomeScreen from "./screens/HomeScreen";
+import SignupScreen from "./screens/SignupScreen";
+import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import ContactScreen from "./screens/ContactScreen";
 
 function App() {
   return (
     <Router>
-      <div className='bg-white'>
-        <div className='relative overflow-hidden'>
+      <div className="bg-white">
+        <div className="relative overflow-hidden">
           <Header />
           <main>
             <Routes>
-              <Route path='/signup' element={<SignupScreen />} />
-              <Route path='/' element={<HomeScreen />} exact />
+              <Route path="/signup" element={<SignupScreen />} />
+              <Route path="/contact" element={<ContactScreen />} />
+              <Route path="/" element={<HomeScreen />} exact />
             </Routes>
           </main>
         </div>
