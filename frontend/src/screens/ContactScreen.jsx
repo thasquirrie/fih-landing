@@ -35,7 +35,7 @@ export default function Example() {
             <p className="mt-4 text-lg text-gray-500 sm:mt-3">
               We’d love to hear from you! Send us a message using the form
               opposite, or email us. We’d love to hear from you! Send us a
-              message using the form opposite, or email us.
+              message using the form below, or email us.
             </p>
             <form
               action="#"
@@ -95,17 +95,17 @@ export default function Example() {
               </div>
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="company"
+                  htmlFor="school"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Company
+                  School
                 </label>
                 <div className="mt-1">
                   <input
                     type="text"
-                    name="company"
-                    id="company"
-                    autoComplete="organization"
+                    name="school"
+                    id="school"
+                    autoComplete="school"
                     className="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function Example() {
                   />
                 </div>
               </div>
-              <fieldset className="sm:col-span-2">
+              {/* <fieldset className="sm:col-span-2">
                 <legend className="block text-sm font-medium text-gray-700">
                   Expected budget
                 </legend>
@@ -224,7 +224,7 @@ export default function Example() {
                     </label>
                   </div>
                 </div>
-              </fieldset>
+              </fieldset> */}
               <div className="sm:col-span-2">
                 <label
                   htmlFor="how-did-you-hear-about-us"

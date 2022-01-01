@@ -13,7 +13,7 @@ export default function RegistrationAlertSuccess() {
         </div>
         <div className='ml-3'>
           <p className='text-sm font-medium text-green-800'>
-            Registration completed successfully
+            Registration completed successfully. You will be contacted shortly.
           </p>
         </div>
         <div className='ml-auto pl-3'>
