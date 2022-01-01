@@ -9,10 +9,16 @@ const { bgGreen } = require("colors");
 const DB_LOCAL = process.env.DATABASE_LOCAL;
 console.log(`${DB_LOCAL}`.bgGreen.white);
 
-const DB = process.env.DATABASE.replace(
-  "<password>",
-  process.env.DATABASE_PASSWORD
-);
+let DB = "";
+
+if (process.env.NODE_ENV === "development") {
+  DB = process.env.DATABASE_LOCAL;
+} else if (process.env.NODE_ENV === "production") {
+  DB = process.env.DATABASE.replace(
+    "<password>",
+    process.env.DATABASE_PASSWORD
+  );
+}
 
 console.log({ DB });
 
