@@ -27,13 +27,28 @@ router.get(
   userController.getUser
 );
 
+router.get(
+  '/students',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.getUsersByRole
+);
+
+router.get(
+  '/volunteers',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.getUsersByRole
+);
+
 router
   .route('/')
   .get(
     authController.protect,
     authController.restrictTo('admin'),
     userController.getUsers
-  );
+  )
+  .post(userController.createUser);
 
 router
   .route('/:id')

@@ -1,8 +1,9 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+// const Admin = require('../models/Admin');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const Admin = require('../models/Admin');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -10,8 +11,8 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
+const createSendToken = (admin, statusCode, res) => {
+  const token = signToken(admin._id);
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
@@ -23,61 +24,25 @@ const createSendToken = (user, statusCode, res) => {
 
   res.cookie('jwt', token, cookieOptions);
 
-  user.password = undefined;
+  admin.password = undefined;
 
   res.status(statusCode).json({
     status: 'success',
     token,
     data: {
-      user,
+      admin,
     },
   });
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    institution,
-    level,
-    state,
-    courseOfStudy,
-    areaOfSpecialization,
-    email,
-    password,
-    confirmPassword,
-    passwordChangedAt,
-    address,
-    city,
-    zip,
-    classLevel,
-    language,
-    schoolAddress,
-  } = req.body;
+  const { name, username, email, password, confirmPassword } = req.body;
 
-  const details = {
-    firstName,
-    lastName,
-    institution,
-    level,
-    state,
-    courseOfStudy,
-    areaOfSpecialization,
-    email,
-    password,
-    confirmPassword,
-    passwordChangedAt,
-    address,
-    city,
-    zip,
-    classLevel,
-    language,
-    schoolAddress,
-  };
+  const details = { name, username, email, password, confirmPassword };
 
-  const newUser = await User.create(details);
+  const newAdmin = await Admin.create(details);
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newAdmin, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -85,12 +50,12 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || password)
     return next(new AppError('Please provide email and password', 400));
 
-  const user = await User.findOne({ email }).select('+password');
+  const user = await Admin.findOne({ email }).select('+password');
 
-  if (!user || user.comparePasswords(password, user.password))
+  if (!admin || admin.comparePasswords(password, admin.password))
     return next(new AppError('Wrong email or password', 400));
 
-  createSendToken(user, 200, res);
+  createSendToken(admin, 200, res);
 });
 
 exports.logout = (req, res) => {
@@ -133,8 +98,8 @@ exports.protect = catchAsync(async (req, res, next) => {
       )
     );
 
-  const user = await User.findById(decoded.id);
-  const checked = user.changedPasswordAfter(decoded.iat);
+  const admin = await Admin.findById(decoded.id);
+  const checked = admin.changedPasswordAfter(decoded.iat);
 
   if (!checked)
     return next(
@@ -144,14 +109,14 @@ exports.protect = catchAsync(async (req, res, next) => {
       )
     );
 
-  req.user = user;
+  req.admin = admin;
 
   next();
 });
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role))
+    if (!roles.includes(req.admin.role))
       return next(
         new AppError('You are restricted from accessing this route.', 403)
       );
@@ -162,21 +127,21 @@ exports.restrictTo = (...roles) => {
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
 
-  const user = await User.findById(req.user._id).select('+password');
+  const admin = await Admin.findById(req.admin._id).select('+password');
 
   if (!currentPassword || !newPassword || !confirmNewPassword)
     return next(
       new AppError('You need to provide all required input fields', 400)
     );
 
-  if (!(await user.comparePassword(currentPassword, user.password)))
+  if (!(await admin.comparePassword(currentPassword, admin.password)))
     return next(new AppError('Password incorrect', 401));
 
-  user.password = newPasssword;
-  user.confirmPassword = confirmNewPassword;
-  await user.save();
+  admin.password = newPasssword;
+  admin.confirmPassword = confirmNewPassword;
+  await admin.save();
 
-  const token = signToken(user._id);
+  const token = signToken(admin._id);
 
   res.status(200).json({
     status: 'success',

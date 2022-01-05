@@ -10,7 +10,7 @@ export default function HomeScreen({ match }) {
   console.log({ location });
   return (
     <>
-      <div id='/' className='relative bg-white overflow-hidden'>
+      <div id='/' className='relative bg-white overflow-hidden mb-3'>
         <Hero />
       </div>
       <div className='overflow-hidden max-w-7xl mx-auto'>
