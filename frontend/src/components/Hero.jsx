@@ -21,7 +21,7 @@ const offers = [
 
 export default function Hero() {
   return (
-    <div className='bg-white'>
+    <div className='bg-gray-50'>
       <div className='flex flex-col border-b border-gray-200 lg:border-0'>
         <div className='relative'>
           <div
