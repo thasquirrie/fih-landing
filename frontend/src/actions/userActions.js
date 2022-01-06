@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  GET_USERS_FAIL,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -285,10 +288,10 @@ export const userUpdatePassword = (data) => async (dispatch, getState) => {
   }
 };
 
-export const getAllStudents = (data) => async (dispatch, getState) => {
+export const getAllStudents = (data, suffix) => async (dispatch, getState) => {
   try {
     console.log('HI');
-    dispatch({ type: USER_UPDATE_PASSWORD_REQUEST });
+    dispatch({ type: GET_USERS_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -308,8 +311,8 @@ export const getAllStudents = (data) => async (dispatch, getState) => {
         data: { admin },
       },
     } = await axios({
-      method: 'PATCH',
-      url: `/api/v1/users/update-password`,
+      method: 'GET',
+      url: `/api/v1/users/`,
       headers,
       data,
     });
@@ -317,14 +320,14 @@ export const getAllStudents = (data) => async (dispatch, getState) => {
     console.log({ admin });
 
     dispatch({
-      type: USER_UPDATE_PASSWORD_SUCCESS,
+      type: GET_USERS_SUCCESS,
       payload: admin,
     });
 
     // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
     dispatch({
-      type: USER_UPDATE_PASSWORD_FAIL,
+      type: GET_USERS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
