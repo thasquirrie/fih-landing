@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
 import Input from './Input';
-import { signup } from '../actions/userActions';
+import { userUpdateDetails } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
 
@@ -29,8 +29,8 @@ export default function Modal({ modal, userInfo }) {
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    console.log({ email, username });
-    dispatch(signup({ email, username, name }));
+    console.log({ email, username, name });
+    dispatch(userUpdateDetails({ email, username, name }));
   };
 
   // console.log(modal);
@@ -75,7 +75,7 @@ export default function Modal({ modal, userInfo }) {
               <div>
                 <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
                   <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-                    <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
+                    <h2 className='mt-6 text-center text-xl sm:text-3xl font-extrabold text-gray-900'>
                       Edit your details
                     </h2>
                   </div>
