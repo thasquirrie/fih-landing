@@ -16,14 +16,15 @@ import {
 } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import EditModal from './EditModal';
+import PasswordEditModal from './PasswordEditModal';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function AdminDropdown({ userInfo }) {
-  const [edit, setEdit] = useState(true);
-  const [passwordEdit, setPasswordEdit] = useState(true);
+  const [edit, setEdit] = useState(false);
+  const [passwordEdit, setPasswordEdit] = useState(false);
   // const userLogin = useSelector((state) => state.userLogin);
 
   // const { userInfo } = userLogin;
@@ -35,9 +36,18 @@ export default function AdminDropdown({ userInfo }) {
     setEdit(false);
   };
 
+  const passwordEditHandler = () => {
+    setPasswordEdit(true);
+  };
+
+  const onMousePasswordEditHandler = () => {
+    setPasswordEdit(false);
+  };
+
   return (
     <>
       {edit && <EditModal userInfo={userInfo} />}
+      {passwordEdit && <PasswordEditModal />}
       <Menu as='div' className='relative inline-block text-left'>
         <div>
           <Menu.Button className='inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500'>
@@ -87,6 +97,8 @@ export default function AdminDropdown({ userInfo }) {
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'group flex items-center px-4 py-2 text-sm'
                     )}
+                    onClick={passwordEditHandler}
+                    onMouseUp={onMousePasswordEditHandler}
                   >
                     <CogIcon
                       className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500'
@@ -101,7 +113,7 @@ export default function AdminDropdown({ userInfo }) {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='#'
+                    to='/students'
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'group flex items-center px-4 py-2 text-sm'
@@ -119,7 +131,7 @@ export default function AdminDropdown({ userInfo }) {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='#'
+                    to='/students'
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'group flex items-center px-4 py-2 text-sm'

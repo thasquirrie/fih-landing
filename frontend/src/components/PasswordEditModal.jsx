@@ -6,6 +6,8 @@ import Input from './Input';
 import { signup } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
+// import { useLocation } from 'react-router';
+// import { useHistory } from 'react-router-dom';
 
 export default function Modal({ modal, userInfo }) {
   const [open, setOpen] = useState(true);
@@ -76,7 +78,7 @@ export default function Modal({ modal, userInfo }) {
                 <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
                   <div className='sm:mx-auto sm:w-full sm:max-w-md'>
                     <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-                      Edit your details
+                      Edit your Password
                     </h2>
                   </div>
 
@@ -120,12 +122,12 @@ export default function Modal({ modal, userInfo }) {
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                           >
-                            {loading ? 'Processing...' : 'Edit Details'}
+                            {loading ? 'Processing...' : 'Edit Password'}
                           </button>
                         </div>
                         {success && (
                           <RegistrationAlertSuccess
-                            message={'Details changed successfully'}
+                            message={'Password changed successfully'}
                           />
                         )}
                         {error && <RegistrationAlertError />}

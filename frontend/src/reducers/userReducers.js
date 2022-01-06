@@ -1,4 +1,7 @@
 import {
+  GET_USERS_FAIL,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -11,6 +14,9 @@ import {
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_UPDATE_PASSWORD_FAIL,
+  USER_UPDATE_PASSWORD_REQUEST,
+  USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
 } from '../constants/userConstants';
@@ -63,7 +69,7 @@ export const userUpdateDetailsReducer = (state = {}, action) => {
     case USER_UPDATE_REQUEST:
       return { loading: true };
     case USER_UPDATE_SUCCESS:
-      return { loading: false, success: true, user: action.payload };
+      return { loading: false, success: true, admin: action.payload };
     case USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -73,6 +79,26 @@ export const userUpdateDetailsReducer = (state = {}, action) => {
 
 export const userUpdatePasswordReducer = (state = {}, action) => {
   switch (action.type) {
-    case
+    case USER_UPDATE_PASSWORD_REQUEST:
+      return { loading: true };
+    case USER_UPDATE_PASSWORD_SUCCESS:
+      return { loading: false, admin: action.payload };
+    case USER_UPDATE_PASSWORD_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
   }
-}
+};
+
+export const allUsers = (state = [], action) => {
+  switch (action.type) {
+    case GET_USERS_REQUEST:
+      return { loading: true };
+    case GET_USERS_SUCCESS:
+      return { loading: false, success: true, users: action.payload };
+    case GET_USERS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return [];
+  }
+};

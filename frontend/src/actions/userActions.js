@@ -12,6 +12,9 @@ import {
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_UPDATE_PASSWORD_FAIL,
+  USER_UPDATE_PASSWORD_REQUEST,
+  USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
 } from '../constants/userConstants';
@@ -206,7 +209,7 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
 
     const {
       data: {
-        data: { user },
+        data: { admin },
       },
     } = await axios({
       method: 'PATCH',
@@ -215,17 +218,113 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
       data,
     });
 
-    console.log({ user });
+    console.log({ admin });
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
-      payload: user,
+      payload: admin,
     });
 
     // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userUpdatePassword = (data) => async (dispatch, getState) => {
+  try {
+    console.log('HI');
+    dispatch({ type: USER_UPDATE_PASSWORD_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // const config = {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${userInfo.token}`,
+    };
+    // };
+
+    console.log(data);
+
+    const {
+      data: {
+        data: { admin },
+      },
+    } = await axios({
+      method: 'PATCH',
+      url: `/api/v1/users/update-password`,
+      headers,
+      data,
+    });
+
+    console.log({ admin });
+
+    dispatch({
+      type: USER_UPDATE_PASSWORD_SUCCESS,
+      payload: admin,
+    });
+
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PASSWORD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getAllStudents = (data) => async (dispatch, getState) => {
+  try {
+    console.log('HI');
+    dispatch({ type: USER_UPDATE_PASSWORD_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // const config = {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${userInfo.token}`,
+    };
+    // };
+
+    console.log(data);
+
+    const {
+      data: {
+        data: { admin },
+      },
+    } = await axios({
+      method: 'PATCH',
+      url: `/api/v1/users/update-password`,
+      headers,
+      data,
+    });
+
+    console.log({ admin });
+
+    dispatch({
+      type: USER_UPDATE_PASSWORD_SUCCESS,
+      payload: admin,
+    });
+
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PASSWORD_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
