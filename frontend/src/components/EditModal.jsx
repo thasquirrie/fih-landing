@@ -7,19 +7,17 @@ import { signup } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
 
-export default function Modal({ modal }) {
+export default function Modal({ modal, userInfo }) {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const dispatch = useDispatch();
 
   const userSignup = useSelector((state) => state.userSignup);
 
-  const { error, loading, success, userInfo } = userSignup;
+  const { error, loading, success } = userSignup;
 
   useEffect(() => {
     if (success) {
@@ -31,8 +29,8 @@ export default function Modal({ modal }) {
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    dispatch(signup({ email, password, name, username, confirmPassword }));
+    console.log({ email, username });
+    dispatch(signup({ email, username, name }));
   };
 
   // console.log(modal);
@@ -78,7 +76,7 @@ export default function Modal({ modal }) {
                 <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
                   <div className='sm:mx-auto sm:w-full sm:max-w-md'>
                     <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-                      Sign up for an account
+                      Edit your details
                     </h2>
                   </div>
 
@@ -94,7 +92,7 @@ export default function Modal({ modal }) {
                           labelName={'Name'}
                           name={'name'}
                           type={'text'}
-                          value={name}
+                          value={userInfo.admin.name}
                           onChange={(e) => setName(e.target.value)}
                           required
                         />
@@ -102,7 +100,7 @@ export default function Modal({ modal }) {
                           labelName={'Username'}
                           name={'username'}
                           type={'text'}
-                          value={username}
+                          value={userInfo.admin.username}
                           onChange={(e) => setUsername(e.target.value)}
                           required
                         />
@@ -110,24 +108,8 @@ export default function Modal({ modal }) {
                           labelName={'Email Address'}
                           name={'email'}
                           type={'email'}
-                          value={email}
+                          value={userInfo.admin.email}
                           onChange={(e) => setEmail(e.target.value)}
-                          required
-                        />
-                        <Input
-                          labelName={'Password'}
-                          name={'password'}
-                          type={'password'}
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                        />
-                        <Input
-                          labelName={'Confirm Password'}
-                          name={'confirm-password'}
-                          type={'password'}
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
                           required
                         />
 
@@ -136,14 +118,12 @@ export default function Modal({ modal }) {
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                           >
-                            {loading ? 'Loading...' : 'Sign up'}
+                            {loading ? 'Processing...' : 'Edit Details'}
                           </button>
                         </div>
                         {success && (
                           <RegistrationAlertSuccess
-                            message={
-                              'Registration completed. You will be contacted shortly.'
-                            }
+                            message={'Details changed successfully'}
                           />
                         )}
                         {error && <RegistrationAlertError />}

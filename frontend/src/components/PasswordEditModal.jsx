@@ -7,19 +7,17 @@ import { signup } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
 
-export default function Modal({ modal }) {
+export default function Modal({ modal, userInfo }) {
   const [open, setOpen] = useState(true);
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const dispatch = useDispatch();
 
   const userSignup = useSelector((state) => state.userSignup);
 
-  const { error, loading, success, userInfo } = userSignup;
+  const { error, loading, success } = userSignup;
 
   useEffect(() => {
     if (success) {
@@ -31,8 +29,8 @@ export default function Modal({ modal }) {
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    dispatch(signup({ email, password, name, username, confirmPassword }));
+    console.log({ currentPassword, newPassword, confirmNewPassword });
+    dispatch(signup({ currentPassword, newPassword, confirmNewPassword }));
   };
 
   // console.log(modal);
@@ -78,7 +76,7 @@ export default function Modal({ modal }) {
                 <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
                   <div className='sm:mx-auto sm:w-full sm:max-w-md'>
                     <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-                      Sign up for an account
+                      Edit your details
                     </h2>
                   </div>
 
@@ -91,43 +89,29 @@ export default function Modal({ modal }) {
                         method='POST'
                       >
                         <Input
-                          labelName={'Name'}
-                          name={'name'}
-                          type={'text'}
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          required
-                        />
-                        <Input
-                          labelName={'Username'}
-                          name={'username'}
-                          type={'text'}
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          required
-                        />
-                        <Input
-                          labelName={'Email Address'}
-                          name={'email'}
-                          type={'email'}
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                        />
-                        <Input
-                          labelName={'Password'}
-                          name={'password'}
+                          labelName={'Current Password'}
+                          name={'current-password'}
                           type={'password'}
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          // value={userInfo.admin.name}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
                           required
                         />
                         <Input
-                          labelName={'Confirm Password'}
-                          name={'confirm-password'}
+                          labelName={'New Password'}
+                          name={'new-password'}
                           type={'password'}
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          // value={userInfo.admin.username}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          required
+                        />
+                        <Input
+                          labelName={'Confirm New Password'}
+                          name={'confirm-new-password'}
+                          type={'password'}
+                          // value={userInfo.admin.email}
+                          onChange={(e) =>
+                            setConfirmNewPassword(e.target.value)
+                          }
                           required
                         />
 
@@ -136,14 +120,12 @@ export default function Modal({ modal }) {
                             type='submit'
                             className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                           >
-                            {loading ? 'Loading...' : 'Sign up'}
+                            {loading ? 'Processing...' : 'Edit Details'}
                           </button>
                         </div>
                         {success && (
                           <RegistrationAlertSuccess
-                            message={
-                              'Registration completed. You will be contacted shortly.'
-                            }
+                            message={'Details changed successfully'}
                           />
                         )}
                         {error && <RegistrationAlertError />}

@@ -1,19 +1,16 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { CheckCircleIcon, XIcon } from '@heroicons/react/solid';
+import { XCircleIcon, XIcon } from '@heroicons/react/solid';
 
-export default function RegistrationAlertError() {
+export default function RegistrationAlertError({ message }) {
   return (
     <div className='rounded-md bg-red-50 p-4'>
       <div className='flex'>
         <div className='flex-shrink-0'>
-          <CheckCircleIcon
-            className='h-5 w-5 text-green-400'
-            aria-hidden='true'
-          />
+          <XCircleIcon className='h-5 w-5 text-green-400' aria-hidden='true' />
         </div>
         <div className='ml-3'>
           <p className='text-sm font-medium text-green-800'>
-            Registration completed successfully
+            Some error occured! Please try again.
           </p>
         </div>
         <div className='ml-auto pl-3'>

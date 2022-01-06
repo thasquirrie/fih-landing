@@ -70,3 +70,9 @@ export const userUpdateDetailsReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const userUpdatePasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case
+  }
+}
