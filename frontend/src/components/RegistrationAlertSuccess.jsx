@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { CheckCircleIcon, XIcon } from '@heroicons/react/solid';
 
-export default function RegistrationAlertSuccess() {
+export default function RegistrationAlertSuccess({ message }) {
   return (
     <div className='rounded-md bg-green-50 p-4'>
       <div className='flex'>
@@ -12,9 +12,7 @@ export default function RegistrationAlertSuccess() {
           />
         </div>
         <div className='ml-3'>
-          <p className='text-sm font-medium text-green-800'>
-            Registration completed successfully. You will be contacted shortly.
-          </p>
+          <p className='text-sm font-medium text-green-800'>{message}</p>
         </div>
         <div className='ml-auto pl-3'>
           <div className='-mx-1.5 -my-1.5'>

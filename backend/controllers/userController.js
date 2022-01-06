@@ -1,3 +1,4 @@
+const Admin = require('../models/Admin');
 const User = require('../models/User');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -101,18 +102,18 @@ exports.createUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getMe = catchAsync(async (req, res, next) => {
-  req.params.id = req.user.id;
+  req.params.id = req.admin.id;
 });
 
 exports.updateUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const admin = await Admin.findById(req.params.id);
 
-  if (!user)
+  if (!admin)
     return next(
       new AppError('No user with the specified id found on this server', 404)
     );
 
-  const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {
+  const updatedUser = await Admin.findByIdAndUpdate(admin._id, req.body, {
     new: true,
     runValidators: true,
   });
@@ -122,7 +123,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      user: updatedUser,
+      admin: updatedUser,
     },
   });
 });

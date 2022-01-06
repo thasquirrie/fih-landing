@@ -50,7 +50,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || password)
     return next(new AppError('Please provide email and password', 400));
 
-  const user = await Admin.findOne({ email }).select('+password');
+  const admin = await Admin.findOne({ email }).select('+password');
 
   if (!admin || admin.comparePasswords(password, admin.password))
     return next(new AppError('Wrong email or password', 400));

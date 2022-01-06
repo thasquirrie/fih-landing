@@ -307,9 +307,11 @@ export default function Example() {
                     ))}
                   </div>
                 </Popover.Group>
-
-                {userInfo && userInfo.role === 'admin' ? (
-                  <AdminDropdown />
+                {console.log(userInfo)}
+                {userInfo && userInfo.admin.role === 'admin' ? (
+                  <div className='flex-1 flex items-center justify-end'>
+                    <AdminDropdown userInfo={userInfo} />
+                  </div>
                 ) : (
                   <div className='flex-1 flex items-center justify-end'>
                     <Link

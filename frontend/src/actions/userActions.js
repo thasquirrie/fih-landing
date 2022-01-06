@@ -27,7 +27,7 @@ export const login = (email, password) => async (dispatch) => {
     };
     const {
       data: {
-        data: { user },
+        data: { admin },
         token,
       },
     } = await axios({
@@ -39,10 +39,10 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: { user, token },
+      payload: { admin, token },
     });
 
-    localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+    localStorage.setItem('userInfo', JSON.stringify({ admin, token }));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -73,7 +73,7 @@ export const signup = (data) => async (dispatch) => {
     };
     const {
       data: {
-        data: { user },
+        data: { admin },
         token,
       },
     } = await axios({
@@ -85,10 +85,10 @@ export const signup = (data) => async (dispatch) => {
 
     dispatch({
       type: USER_SIGNUP_SUCCESS,
-      payload: { user, token },
+      payload: { admin, token },
     });
 
-    localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+    localStorage.setItem('userInfo', JSON.stringify({ admin, token }));
   } catch (error) {
     console.log({ error });
     dispatch({
