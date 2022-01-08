@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from 'react';
-
+import { useDispatch } from 'react-redux';
 import { Menu, Transition } from '@headlessui/react';
 import {
   ChevronDownIcon,
@@ -9,7 +9,7 @@ import {
   UsersIcon,
   UserGroupIcon,
 } from '@heroicons/react/solid';
-import { useSelector } from 'react-redux';
+
 import {
   // UserGroupIcon,
   ArrowCircleLeftIcon,
@@ -17,6 +17,7 @@ import {
 import { Link } from 'react-router-dom';
 import EditModal from './EditModal';
 import PasswordEditModal from './PasswordEditModal';
+import { logout } from '../actions/userActions';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -26,6 +27,8 @@ export default function AdminDropdown({ userInfo }) {
   const [edit, setEdit] = useState(false);
   const [passwordEdit, setPasswordEdit] = useState(false);
   // const userLogin = useSelector((state) => state.userLogin);
+
+  const dispatch = useDispatch();
 
   // const { userInfo } = userLogin;
   const editHandler = () => {
@@ -42,6 +45,10 @@ export default function AdminDropdown({ userInfo }) {
 
   const onMousePasswordEditHandler = () => {
     setPasswordEdit(false);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
   };
 
   return (
@@ -131,7 +138,7 @@ export default function AdminDropdown({ userInfo }) {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/students'
+                    to='/volunteers'
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'group flex items-center px-4 py-2 text-sm'
@@ -156,6 +163,7 @@ export default function AdminDropdown({ userInfo }) {
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'group flex items-center px-4 py-2 text-sm'
                     )}
+                    onClick={logoutHandler}
                   >
                     <ArrowCircleLeftIcon
                       className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500'

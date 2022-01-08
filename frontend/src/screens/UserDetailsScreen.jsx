@@ -68,21 +68,18 @@ const SignupScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('thasquirrie');
-    console.log({ details });
-    // dispatch(signup({ username, email, password, confirmPassword }));
-    dispatch(createUser(details));
+    navigate('/students');
   };
 
-  useEffect(() => {
-    if (success) {
-      window.setTimeout(() => {
-        navigate('/');
-      }, 3000);
-    }
-  });
+  // useEffect(() => {
+  //   if (success) {
+  //     window.setTimeout(() => {
+  //       navigate('/');
+  //     }, 3000);
+  //   }
+  // });
 
-  console.log({ success });
+  // console.log({ success });
 
   return (
     <div className='max-w-7xl mx-auto space-y-6'>
@@ -117,7 +114,7 @@ const SignupScreen = () => {
                       id='first-name'
                       autoComplete='given-name'
                       value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      // onChange={(e) => setFirstName(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -135,7 +132,7 @@ const SignupScreen = () => {
                       id='last-name'
                       autoComplete='family-name'
                       value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
+                      // onChange={(e) => setLastName(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -153,7 +150,7 @@ const SignupScreen = () => {
                       id='email-address'
                       autoComplete='email'
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      // onChange={(e) => setEmail(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -191,7 +188,7 @@ const SignupScreen = () => {
                       id='street-address'
                       autoComplete='street-address'
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      // onChange={(e) => setAddress(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -209,7 +206,7 @@ const SignupScreen = () => {
                       id='city'
                       autoComplete='address-level2'
                       value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                      // onChange={(e) => setCity(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -227,7 +224,7 @@ const SignupScreen = () => {
                       id='region'
                       autoComplete='address-level1'
                       value={state}
-                      onChange={(e) => setState(e.target.value)}
+                      // onChange={(e) => setState(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -245,7 +242,7 @@ const SignupScreen = () => {
                       id='postal-code'
                       autoComplete='postal-code'
                       value={zip}
-                      onChange={(e) => setZip(e.target.value)}
+                      // onChange={(e) => setZip(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -283,7 +280,7 @@ const SignupScreen = () => {
                       id='institution'
                       autoComplete='institution'
                       value={institution}
-                      onChange={(e) => setInstitution(e.target.value)}
+                      // onChange={(e) => setInstitution(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -299,7 +296,7 @@ const SignupScreen = () => {
                       name='level'
                       autoComplete='level'
                       value={level}
-                      onChange={(e) => setLevel(e.target.value)}
+                      // onChange={(e) => setLevel(e.target.value)}
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='secondary'>Secodary School Student</option>
@@ -321,7 +318,7 @@ const SignupScreen = () => {
                           id='course-of-study'
                           autoComplete='course-of-study'
                           value={courseOfStudy}
-                          onChange={(e) => setCourseOfStudy(e.target.value)}
+                          // onChange={(e) => setCourseOfStudy(e.target.value)}
                           className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </label>
@@ -339,7 +336,7 @@ const SignupScreen = () => {
                         name='class'
                         autoComplete='class'
                         value={classLevel}
-                        onChange={(e) => setClassLevel(e.target.value)}
+                        // onChange={(e) => setClassLevel(e.target.value)}
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       >
                         <option value='jss1'>JSS 1</option>
@@ -366,7 +363,7 @@ const SignupScreen = () => {
                       id='school-address'
                       autoComplete='school-address'
                       value={schoolAddress}
-                      onChange={(e) => setSchoolAddress(e.target.value)}
+                      // onChange={(e) => setSchoolAddress(e.target.value)}
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -403,7 +400,7 @@ const SignupScreen = () => {
                       name='specialization'
                       autoComplete='specialization'
                       value={areaOfSpecialization}
-                      onChange={(e) => setAreaOfSpecialization(e.target.value)}
+                      // onChange={(e) => setAreaOfSpecialization(e.target.value)}
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='programming'>Programming</option>
@@ -424,7 +421,7 @@ const SignupScreen = () => {
                       name='language'
                       autoComplete='language'
                       value={language}
-                      onChange={(e) => setLanguage(e.target.value)}
+                      // onChange={(e) => setLanguage(e.target.value)}
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='javascript'>JavaScript</option>
@@ -443,19 +440,20 @@ const SignupScreen = () => {
           <button
             type='submit'
             className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 my-5'
+            // onClick={onCli}
           >
-            Signup
+            Go back
           </button>
         </div>
 
-        {success && (
+        {/* {success && (
           <RegistrationAlertSuccess
             message={
               'Registration completed successfully. We will contact you shortly'
             }
           />
         )}
-        {error && <RegistrationAlertError />}
+        {error && <RegistrationAlertError />} */}
       </form>
     </div>
   );

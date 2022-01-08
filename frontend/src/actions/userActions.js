@@ -1,8 +1,17 @@
 import axios from 'axios';
 import {
+  CREATE_USER_FAIL,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_REQUEST,
+  GET_STUDENTS_SUCCESS,
   GET_USERS_FAIL,
   GET_USERS_REQUEST,
   GET_USERS_SUCCESS,
+  GET_VOLUNTEERS_FAIL,
+  GET_VOLUNTEERS_REQUEST,
+  GET_VOLUNTEERS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -22,9 +31,11 @@ import {
   USER_UPDATE_SUCCESS,
 } from '../constants/userConstants';
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (data) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
+
+    console.log({ data });
 
     const config = {
       headers: {
@@ -38,8 +49,8 @@ export const login = (email, password) => async (dispatch) => {
       },
     } = await axios({
       method: 'POST',
-      url: '/api/v1/users/login',
-      data: { email, password },
+      url: 'http://localhost:4000/api/v1/users/login',
+      data,
       config,
     });
 
@@ -129,7 +140,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `/api/v1/users/${id}`,
+      url: `http://localhost:4000/api/v1/users/${id}`,
       headers,
     });
 
@@ -171,7 +182,7 @@ export const getMyDetails = () => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `/api/v1/users/me`,
+      url: `http://localhost:4000/api/v1/users/me`,
       headers,
     });
 
@@ -216,7 +227,7 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'PATCH',
-      url: `/api/v1/users/update-me`,
+      url: `localhost:4000/api/v1/users/update-me`,
       headers,
       data,
     });
@@ -264,7 +275,7 @@ export const userUpdatePassword = (data) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'PATCH',
-      url: `/api/v1/users/update-password`,
+      url: `http://localhost:4000/api/v1/users/update-password`,
       headers,
       data,
     });
@@ -288,10 +299,9 @@ export const userUpdatePassword = (data) => async (dispatch, getState) => {
   }
 };
 
-export const getAllStudents = (data, suffix) => async (dispatch, getState) => {
+export const getAllVolunteers = () => async (dispatch, getState) => {
   try {
-    console.log('HI');
-    dispatch({ type: GET_USERS_REQUEST });
+    dispatch({ type: GET_VOLUNTEERS_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -304,30 +314,113 @@ export const getAllStudents = (data, suffix) => async (dispatch, getState) => {
     };
     // };
 
-    console.log(data);
-
     const {
       data: {
-        data: { admin },
+        data: { users: volunteers },
       },
     } = await axios({
       method: 'GET',
-      url: `/api/v1/users/`,
+      url: `http://localhost:4000/api/v1/users/volunteers`,
       headers,
-      data,
     });
 
-    console.log({ admin });
+    console.log({ volunteers });
 
     dispatch({
-      type: GET_USERS_SUCCESS,
-      payload: admin,
+      type: GET_VOLUNTEERS_SUCCESS,
+      payload: volunteers,
     });
 
     // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
     dispatch({
-      type: GET_USERS_FAIL,
+      type: GET_VOLUNTEERS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getAllStudents = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_STUDENTS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // const config = {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${userInfo.token}`,
+    };
+    // };
+
+    const {
+      data: {
+        data: { users: students },
+      },
+    } = await axios({
+      method: 'GET',
+      url: `http://localhost:4000/api/v1/users/students`,
+      headers,
+    });
+
+    console.log({ students });
+
+    dispatch({
+      type: GET_STUDENTS_SUCCESS,
+      payload: students,
+    });
+
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+  } catch (error) {
+    dispatch({
+      type: GET_STUDENTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createUser = (data) => async (dispatch, getState) => {
+  try {
+    console.log('HI');
+    dispatch({ type: CREATE_USER_REQUEST });
+
+    // const config = {
+    const headers = {
+      'Content-Type': 'application/json',
+      // Authorization: `Bearer ${userInfo.token}`,
+    };
+    // };
+
+    console.log(data);
+
+    const {
+      data: {
+        data: { user },
+      },
+    } = await axios({
+      method: 'POST',
+      url: `http://localhost:4000/api/v1/users/`,
+      headers,
+      data,
+    });
+
+    dispatch({
+      type: CREATE_USER_SUCCESS,
+      payload: user,
+    });
+
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+  } catch (error) {
+    dispatch({
+      type: CREATE_USER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

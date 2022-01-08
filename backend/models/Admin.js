@@ -76,6 +76,7 @@ adminSchema.methods.comparePasswords = async function (
   candidatePassword,
   userPassword
 ) {
+  console.log('Answer', await bcrypt.compare(candidatePassword, userPassword));
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 

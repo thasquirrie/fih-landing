@@ -2,12 +2,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
-  allUsers,
-  userDetailsReducer,
+  allStudentsReducer,
+  allVolunteersReducer,
+  userCreateReducer,
+  studentDetailsReducer,
   userLoginReducer,
   userSignupReducer,
   userUpdateDetailsReducer,
   userUpdatePasswordReducer,
+  volunteerDetailsReducer,
 } from './reducers/userReducers';
 
 import {
@@ -17,10 +20,13 @@ import {
 } from './reducers/transactionReducers';
 
 const reducer = combineReducers({
-  getUsers: allUsers,
+  allStudents: allStudentsReducer,
+  allVolunteers: allVolunteersReducer,
+  userCreate: userCreateReducer,
+  studentDetails: studentDetailsReducer,
+  volunteerDetails: volunteerDetailsReducer,
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
-  userDetails: userDetailsReducer,
   userUpdateDetails: userUpdateDetailsReducer,
   userUpdatePassword: userUpdatePasswordReducer,
   createTransaction: createTransactionReducer,

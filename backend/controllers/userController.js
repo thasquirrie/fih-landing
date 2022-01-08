@@ -4,7 +4,7 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find(filter);
+  const users = await User.find();
 
   res.status(200).json({
     status: 'success',
@@ -18,7 +18,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 exports.getUsersByRole = catchAsync(async (req, res) => {
   let filter = {};
 
-  const filterWord = req.originalUrl.split('/')[1];
+  const filterWord = req.originalUrl.split('users/')[1];
 
   if (filterWord === 'students') {
     filter = { role: 'student' };
@@ -26,10 +26,15 @@ exports.getUsersByRole = catchAsync(async (req, res) => {
     filter = { role: 'volunteer' };
   }
 
+  console.log({ filterWord });
+  console.log({ filter });
+
   const users = await User.find(filter);
+  console.log(await User.find({ role: 'student' }));
 
   res.status(200).json({
     status: 'success',
+    length: users.length,
     data: {
       users,
     },
@@ -71,6 +76,8 @@ exports.createUser = catchAsync(async (req, res, next) => {
     schoolAddress,
   } = req.body;
 
+  console.log(req.body);
+
   const details = {
     role,
     firstName,
@@ -81,7 +88,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
     courseOfStudy,
     areaOfSpecialization,
     email,
-    passwordChangedAt,
     address,
     city,
     zip,
@@ -89,6 +95,8 @@ exports.createUser = catchAsync(async (req, res, next) => {
     language,
     schoolAddress,
   };
+
+  console.log({ details });
 
   const newUser = await User.create(details);
   console.log({ newUser });
