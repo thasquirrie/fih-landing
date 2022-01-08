@@ -30,7 +30,7 @@ import {
 } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllStudents } from '../actions/userActions';
+import { getAllVolunteers } from '../actions/userActions';
 import { Link } from 'react-router-dom';
 
 const user = {
@@ -46,49 +46,39 @@ function classNames(...classes) {
 
 export default function Example() {
   const dispatch = useDispatch();
-  const allStudents = useSelector((state) => state.allStudents);
-
-  console.log({ allStudents });
-
-  const { loading, error, students } = allStudents;
-  // console.log({ students });
-
-  // const students = [];
-
-  // const { students } = students;
+  const allVolunteers = useSelector((state) => state.allVolunteers);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // console.log({ students });
+  const { loading, error, volunteers } = allVolunteers;
+  // console.log(volunteers.length);
 
-  // console.log(!students);
+  console.log({ allVolunteers });
+  // console.log({ volunteers });
+
+  // console.log(!volunteers);
   const tabs = [
     {
-      name: 'Student',
-      href: '/students',
-      count: !students ? '0' : students.length,
+      name: 'Volunteers',
+      href: '#',
+      count: !volunteers ? '0' : volunteers.length.toString(),
+      // count: '0',
       current: true,
     },
-    // { name: 'Volunteers', href: '#', count: '4', current: false },
   ];
 
-  const location = useLocation();
-  const suffix = location.pathname.split('/')[1];
+  console.log(tabs[0].count);
 
   const navigate = useNavigate();
-  console.log({ navigate });
-
-  console.log({ location });
 
   useEffect(() => {
     if (!userInfo) {
-      // location.push('/')
       navigate('/');
-    } else if (!students) {
-      dispatch(getAllStudents());
+    } else if (!volunteers) {
+      dispatch(getAllVolunteers());
     }
-  }, [dispatch, suffix, students, navigate, userInfo]);
+  }, [dispatch, volunteers, navigate, userInfo]);
 
   // const clickHandler = () => {
 
@@ -103,7 +93,7 @@ export default function Example() {
       <main className='pt-8 pb-16'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
           <div className='px-4 sm:px-0'>
-            <h2 className='text-lg font-medium text-gray-900'>Students</h2>
+            <h2 className='text-lg font-medium text-gray-900'>Volunteers</h2>
 
             {/* Tabs */}
             <div className='sm:hidden'>
@@ -139,6 +129,7 @@ export default function Example() {
                       }}
                     >
                       {tab.name}
+                      {console.log('Count:', tab.count)}
                       {tab.count ? (
                         <span
                           className={classNames(
@@ -160,16 +151,16 @@ export default function Example() {
 
           {/* Stacked list */}
 
-          {!students ? (
+          {!volunteers || volunteers.length === 0 ? (
             <p className='bg-white shadow-md max-w-7xl mx-auto p-5 my-4 text-center font-medium text-lg'>
-              No students
+              No volunteers yet 😭😭😭
             </p>
           ) : (
             <ul
               // role='list'
               className='mt-5 border-t border-gray-200 divide-y divide-gray-200 sm:mt-0 sm:border-t-0'
             >
-              {students.map((candidate) => (
+              {volunteers.map((candidate) => (
                 <li key={candidate.email}>
                   <Link to='#' className='group block'>
                     <div className='flex items-center py-5 px-4 sm:py-6 sm:px-0'>
@@ -235,7 +226,7 @@ export default function Example() {
           )}
 
           {/* Pagination */}
-          {students && students.length > 10 && (
+          {volunteers && volunteers.length > 10 && (
             <nav
               className='border-t border-gray-200 px-4 flex items-center justify-between sm:px-0'
               aria-label='Pagination'

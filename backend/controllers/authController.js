@@ -47,12 +47,14 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || password)
+  if (!email || !password)
     return next(new AppError('Please provide email and password', 400));
 
   const admin = await Admin.findOne({ email }).select('+password');
 
-  if (!admin || admin.comparePasswords(password, admin.password))
+  console.log({ password }, admin.password);
+
+  if (!admin || !(await admin.comparePasswords(password, admin.password)))
     return next(new AppError('Wrong email or password', 400));
 
   createSendToken(admin, 200, res);
@@ -69,6 +71,8 @@ exports.logout = (req, res) => {
     message: 'You have successfully logged out',
   });
 };
+
+console.log('Result', false || false);
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token = '';
@@ -89,6 +93,8 @@ exports.protect = catchAsync(async (req, res, next) => {
         401
       )
     );
+
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   if (!decoded)
     return next(

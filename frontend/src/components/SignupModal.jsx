@@ -146,7 +146,7 @@ export default function Modal({ modal }) {
                             }
                           />
                         )}
-                        {error && <RegistrationAlertError />}
+                        {error && <RegistrationAlertError message={error} />}
                       </form>
                     </div>
                   </div>

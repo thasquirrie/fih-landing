@@ -1,13 +1,20 @@
 import {
-  GET_USERS_FAIL,
-  GET_USERS_REQUEST,
-  GET_USERS_SUCCESS,
-  USER_DETAILS_FAIL,
-  USER_DETAILS_REQUEST,
-  USER_DETAILS_RESET,
-  USER_DETAILS_SUCCESS,
+  CREATE_USER_FAIL,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_REQUEST,
+  GET_STUDENTS_SUCCESS,
+  GET_VOLUNTEERS_FAIL,
+  GET_VOLUNTEERS_REQUEST,
+  GET_VOLUNTEERS_SUCCESS,
+  STUDENT_DETAILS_FAIL,
+  STUDENT_DETAILS_REQUEST,
+  STUDENT_DETAILS_RESET,
+  STUDENT_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
+  USER_LOGIN_RESET,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
   USER_SIGNUP_FAIL,
@@ -19,6 +26,10 @@ import {
   USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
+  VOLUNTEER_DETAILS_FAIL,
+  VOLUNTEER_DETAILS_REQUEST,
+  VOLUNTEER_DETAILS_RESET,
+  VOLUNTEER_DETAILS_SUCCESS,
 } from '../constants/userConstants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -30,6 +41,8 @@ export const userLoginReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
+      return {};
+    case USER_LOGIN_RESET:
       return {};
     default:
       return state;
@@ -49,15 +62,30 @@ export const userSignupReducer = (state = {}, action) => {
   }
 };
 
-export const userDetailsReducer = (state = { user: {} }, action) => {
+export const studentDetailsReducer = (state = { user: {} }, action) => {
   switch (action.type) {
-    case USER_DETAILS_REQUEST:
+    case STUDENT_DETAILS_REQUEST:
       return { ...state, loading: true };
-    case USER_DETAILS_SUCCESS:
+    case STUDENT_DETAILS_SUCCESS:
       return { loading: false, user: action.payload };
-    case USER_DETAILS_FAIL:
+    case STUDENT_DETAILS_FAIL:
       return { loading: false, error: action.payload };
-    case USER_DETAILS_RESET:
+    case STUDENT_DETAILS_RESET:
+      return { user: {} };
+    default:
+      return state;
+  }
+};
+
+export const volunteerDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case VOLUNTEER_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case VOLUNTEER_DETAILS_SUCCESS:
+      return { loading: false, user: action.payload };
+    case VOLUNTEER_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    case VOLUNTEER_DETAILS_RESET:
       return { user: {} };
     default:
       return state;
@@ -90,15 +118,41 @@ export const userUpdatePasswordReducer = (state = {}, action) => {
   }
 };
 
-export const allUsers = (state = [], action) => {
+export const allStudentsReducer = (state = [], action) => {
   switch (action.type) {
-    case GET_USERS_REQUEST:
+    case GET_STUDENTS_REQUEST:
       return { loading: true };
-    case GET_USERS_SUCCESS:
-      return { loading: false, success: true, users: action.payload };
-    case GET_USERS_FAIL:
+    case GET_STUDENTS_SUCCESS:
+      return { loading: false, success: true, students: action.payload };
+    case GET_STUDENTS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return [];
+  }
+};
+
+export const allVolunteersReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_VOLUNTEERS_REQUEST:
+      return { loading: true };
+    case GET_VOLUNTEERS_SUCCESS:
+      return { loading: false, success: true, volunteers: action.payload };
+    case GET_VOLUNTEERS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return [];
+  }
+};
+
+export const userCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_USER_REQUEST:
+      return { loading: true };
+    case CREATE_USER_SUCCESS:
+      return { loading: false, success: true, user: action.payload };
+    case CREATE_USER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
   }
 };

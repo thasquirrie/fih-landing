@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ContactScreen from './screens/ContactScreen';
 import AllUsersScreen from './screens/AllUsersScreen';
+import AllVolunteersScreen from './screens/AllVolunteersScreen';
 
 function App() {
   return (
@@ -19,6 +20,11 @@ function App() {
               <Route path='/contact' element={<ContactScreen />} />
               <Route path='/:id' element={<HomeScreen />} exact />
               <Route path='/students' element={<AllUsersScreen />} exact />
+              <Route
+                path='/volunteers'
+                element={<AllVolunteersScreen />}
+                exact
+              />
               <Route path='/' element={<HomeScreen />} exact />
             </Routes>
           </main>
