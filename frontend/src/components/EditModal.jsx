@@ -3,34 +3,66 @@ import { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
 import Input from './Input';
-import { userUpdateDetails } from '../actions/userActions';
+import {
+  getMyDetails,
+  updateUserDetails,
+  userUpdateDetails,
+} from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
+import {
+  ADMIN_DETAILS_RESET,
+  USER_UPDATE_RESET,
+} from '../constants/userConstants';
+import { useLocation } from 'react-router';
 
 export default function Modal({ modal, userInfo }) {
+  const userUpdateDetails = useSelector((state) => state.userUpdateDetails);
+
+  const { error, loading, success } = userUpdateDetails;
+
+  const adminDetails = useSelector((state) => state.adminDetails);
+
+  const { loading: adminLoading, error: adminError, admin } = adminDetails;
+
   const [open, setOpen] = useState(true);
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(userInfo.admin.name);
+  const [username, setUsername] = useState(userInfo.admin.username);
+  const [email, setEmail] = useState(userInfo.admin.email);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  // console.log((admin = {}));
 
-  const userSignup = useSelector((state) => state.userSignup);
-
-  const { error, loading, success } = userSignup;
+  // useEffect(() => {
+  //   if (!admin) {
+  //     dispatch(getMyDetails());
+  //   } else {
+  //     setName(admin.name);
+  //     setUsername(admin.username);
+  //     setEmail(admin.email);
+  //   }
+  //   // }
+  // }, [admin, dispatch, userInfo]);
 
   useEffect(() => {
     if (success) {
       window.setTimeout(() => {
         setOpen(false);
+        window.location.reload();
+        dispatch({ type: USER_UPDATE_RESET });
       }, 3000);
     }
-  }, [success]);
+  }, [success, dispatch, location]);
+
+  // useEffect(() => {
+  //   if ()
+  // })
 
   const onClickHandler = (e) => {
     e.preventDefault();
     console.log({ email, username, name });
-    dispatch(userUpdateDetails({ email, username, name }));
+    dispatch(updateUserDetails({ email, username, name }));
   };
 
   // console.log(modal);
@@ -92,7 +124,7 @@ export default function Modal({ modal, userInfo }) {
                           labelName={'Name'}
                           name={'name'}
                           type={'text'}
-                          value={userInfo.admin.name}
+                          value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
                         />
@@ -100,7 +132,7 @@ export default function Modal({ modal, userInfo }) {
                           labelName={'Username'}
                           name={'username'}
                           type={'text'}
-                          value={userInfo.admin.username}
+                          value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           required
                         />
@@ -108,7 +140,7 @@ export default function Modal({ modal, userInfo }) {
                           labelName={'Email Address'}
                           name={'email'}
                           type={'email'}
-                          value={userInfo.admin.email}
+                          value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required
                         />

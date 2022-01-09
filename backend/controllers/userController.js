@@ -30,7 +30,6 @@ exports.getUsersByRole = catchAsync(async (req, res) => {
   console.log({ filter });
 
   const users = await User.find(filter);
-  console.log(await User.find({ role: 'student' }));
 
   res.status(200).json({
     status: 'success',
@@ -53,6 +52,22 @@ exports.getUser = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       user,
+    },
+  });
+});
+
+exports.getAdmin = catchAsync(async (req, res, next) => {
+  const admin = await Admin.findById(req.params.id);
+
+  if (!admin)
+    return next(
+      new AppError('No admin with the specified id found on this server', 404)
+    );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      admin,
     },
   });
 });
@@ -111,10 +126,15 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
 exports.getMe = catchAsync(async (req, res, next) => {
   req.params.id = req.admin.id;
+  console.log('ID:', req.params.id);
+  next();
 });
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const admin = await Admin.findById(req.params.id);
+
+  console.log({ admin });
+  console.log(req.body);
 
   if (!admin)
     return next(
@@ -125,6 +145,8 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  console.log({ updatedUser });
 
   updatedUser.password = undefined;
 
@@ -147,37 +169,23 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.updateMe -
-  catchAsync(async (req, res, next) => {
-    const allowedFields = [
-      'firstName',
-      'lastName',
-      'middleName',
-      'dob',
-      'email',
-      'username',
-      'stateOfOrigin',
-      'phone',
-    ];
+exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  const allowedFields = ['name', 'email', 'username'];
 
-    const filteredFields = filterObj(req.body, ...allowedFields);
+  const filteredFields = filterObj(req.body, ...allowedFields);
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
-      filteredFields,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user: updatedUser,
-      },
-    });
+  const admin = await Admin.findByIdAndUpdate(req.admin.id, filteredFields, {
+    new: true,
+    runValidators: true,
   });
+
+  // createSendToken(admin, 200, res);
+  res.status(200).json({
+    status: 'success',
+    admin,
+  });
+});
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id);

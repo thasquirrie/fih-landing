@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  ADMIN_DETAILS_FAIL,
+  ADMIN_DETAILS_REQUEST,
+  ADMIN_DETAILS_SUCCESS,
   CREATE_USER_FAIL,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
@@ -12,6 +15,9 @@ import {
   GET_VOLUNTEERS_FAIL,
   GET_VOLUNTEERS_REQUEST,
   GET_VOLUNTEERS_SUCCESS,
+  STUDENT_DETAILS_FAIL,
+  STUDENT_DETAILS_REQUEST,
+  STUDENT_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -29,6 +35,9 @@ import {
   USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
+  VOLUNTEER_DETAILS_FAIL,
+  VOLUNTEER_DETAILS_REQUEST,
+  VOLUNTEER_DETAILS_SUCCESS,
 } from '../constants/userConstants';
 
 export const login = (data) => async (dispatch) => {
@@ -118,9 +127,53 @@ export const signup = (data) => async (dispatch) => {
   }
 };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
+export const getStudentDetails = (id) => async (dispatch, getState) => {
   try {
-    dispatch({ type: USER_DETAILS_REQUEST });
+    dispatch({ type: STUDENT_DETAILS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // const config = {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${userInfo.token}`,
+    };
+    // };
+
+    const {
+      data: {
+        data: { user },
+      },
+    } = await axios({
+      method: 'GET',
+      url: `http://localhost:4000/api/v1/users/${id}`,
+      headers,
+    });
+
+    console.log({ user });
+
+    dispatch({
+      type: STUDENT_DETAILS_SUCCESS,
+      payload: user,
+    });
+
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+  } catch (error) {
+    dispatch({
+      type: STUDENT_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getVolunteersDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: VOLUNTEER_DETAILS_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -145,14 +198,14 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: USER_DETAILS_SUCCESS,
+      type: VOLUNTEER_DETAILS_SUCCESS,
       payload: { user, token },
     });
 
-    localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
     dispatch({
-      type: USER_DETAILS_FAIL,
+      type: VOLUNTEER_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -163,7 +216,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 export const getMyDetails = () => async (dispatch, getState) => {
   try {
-    dispatch({ type: USER_DETAILS_REQUEST });
+    dispatch({ type: ADMIN_DETAILS_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -178,7 +231,8 @@ export const getMyDetails = () => async (dispatch, getState) => {
 
     const {
       data: {
-        data: { user },
+        data: { admin },
+        token,
       },
     } = await axios({
       method: 'GET',
@@ -186,15 +240,17 @@ export const getMyDetails = () => async (dispatch, getState) => {
       headers,
     });
 
+    console.log({ admin, token });
+
     dispatch({
-      type: USER_DETAILS_SUCCESS,
-      payload: user,
+      type: ADMIN_DETAILS_SUCCESS,
+      payload: admin,
     });
 
     // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
     dispatch({
-      type: USER_DETAILS_FAIL,
+      type: ADMIN_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -203,7 +259,7 @@ export const getMyDetails = () => async (dispatch, getState) => {
   }
 };
 
-export const userUpdateDetails = (data) => async (dispatch, getState) => {
+export const updateUserDetails = (data) => async (dispatch, getState) => {
   try {
     console.log('HI');
     dispatch({ type: USER_UPDATE_REQUEST });
@@ -214,7 +270,7 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
 
     // const config = {
     const headers = {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${userInfo.token}`,
     };
     // };
@@ -224,10 +280,11 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
     const {
       data: {
         data: { admin },
+        token,
       },
     } = await axios({
       method: 'PATCH',
-      url: `localhost:4000/api/v1/users/update-me`,
+      url: `http://localhost:4000/api/v1/users/update-me`,
       headers,
       data,
     });
@@ -239,8 +296,9 @@ export const userUpdateDetails = (data) => async (dispatch, getState) => {
       payload: admin,
     });
 
-    // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
+    localStorage.setItem('userInfo', JSON.stringify({ admin, token }));
   } catch (error) {
+    console.log({ error });
     dispatch({
       type: USER_UPDATE_FAIL,
       payload:

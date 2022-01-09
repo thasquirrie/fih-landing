@@ -1,70 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../actions/userActions';
-import RegistrationAlertSuccess from '../components/RegistrationAlertSuccess';
-import RegistrationAlertError from '../components/RegistrationAlertError';
+import { getStudentDetails } from '../actions/userActions';
+import { STUDENT_DETAILS_RESET } from '../constants/userConstants';
+// import RegistrationAlertSuccess from '../components/RegistrationAlertSuccess';
+// import RegistrationAlertError from '../components/RegistrationAlertError';
 
-const SignupScreen = () => {
+const UserDetailsScreen = () => {
+  const studentDetails = useSelector((state) => state.studentDetails);
+  const { loading, error, user } = studentDetails;
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [level, setLevel] = useState('secondary');
+  const [level, setLevel] = useState('');
   const [address, setAddress] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
   const [courseOfStudy, setCourseOfStudy] = useState('');
   const [institution, setInstitution] = useState('');
-  const [classLevel, setClassLevel] = useState('jss1');
+  const [classLevel, setClassLevel] = useState('');
   const [schoolAddress, setSchoolAddress] = useState('');
-  const [areaOfSpecialization, setAreaOfSpecialization] =
-    useState('programming');
-  const [language, setLanguage] = useState('javascript');
+  const [areaOfSpecialization, setAreaOfSpecialization] = useState('');
+  const [language, setLanguage] = useState('');
 
   const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
 
-  console.log({ location });
-  console.log({ navigate });
+  // console.log(!!user);
 
-  const userCreate = useSelector((state) => state.userCreate);
+  // console.log({ loading, user });
 
-  const { loading, error, user, success } = userCreate;
-
-  console.log({ loading, user });
-
-  console.log({ error });
+  // console.log({ error });
 
   useEffect(() => {
-    if (success) {
-      window.setTimeout(() => {
-        location.push('/');
-      }, 3000);
+    if (user.firstName) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+      setEmail(user.email);
+      setLevel(user.level);
+      setAddress(user.address);
+      setState(user.state);
+      setCity(user.city);
+      setZip(user.zip);
+      setCourseOfStudy(user.courseOfStudy);
+      setInstitution(user.institution);
+      setClassLevel(user.classLevel);
+      setSchoolAddress(user.schoolAddress);
+      setAreaOfSpecialization(user.areaOfSpecialization);
+      setLanguage(user.language);
+      dispatch({ type: STUDENT_DETAILS_RESET });
+    } else {
+      dispatch(getStudentDetails(params.id));
     }
-  }, [location, success]);
-
-  const details = {
-    firstName,
-    lastName,
-    email,
-    level,
-    address,
-    state,
-    city,
-    zip,
-    courseOfStudy,
-    institution,
-    classLevel,
-    schoolAddress,
-    areaOfSpecialization,
-    language,
-  };
-
-  console.log(level);
+  }, [user, dispatch, params]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -115,6 +109,7 @@ const SignupScreen = () => {
                       autoComplete='given-name'
                       value={firstName}
                       // onChange={(e) => setFirstName(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -133,6 +128,7 @@ const SignupScreen = () => {
                       autoComplete='family-name'
                       value={lastName}
                       // onChange={(e) => setLastName(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -151,6 +147,7 @@ const SignupScreen = () => {
                       autoComplete='email'
                       value={email}
                       // onChange={(e) => setEmail(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -189,6 +186,7 @@ const SignupScreen = () => {
                       autoComplete='street-address'
                       value={address}
                       // onChange={(e) => setAddress(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -207,6 +205,7 @@ const SignupScreen = () => {
                       autoComplete='address-level2'
                       value={city}
                       // onChange={(e) => setCity(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -225,6 +224,7 @@ const SignupScreen = () => {
                       autoComplete='address-level1'
                       value={state}
                       // onChange={(e) => setState(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -243,6 +243,7 @@ const SignupScreen = () => {
                       autoComplete='postal-code'
                       value={zip}
                       // onChange={(e) => setZip(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -281,6 +282,7 @@ const SignupScreen = () => {
                       autoComplete='institution'
                       value={institution}
                       // onChange={(e) => setInstitution(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -297,6 +299,7 @@ const SignupScreen = () => {
                       autoComplete='level'
                       value={level}
                       // onChange={(e) => setLevel(e.target.value)}
+                      readOnly
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='secondary'>Secodary School Student</option>
@@ -319,6 +322,7 @@ const SignupScreen = () => {
                           autoComplete='course-of-study'
                           value={courseOfStudy}
                           // onChange={(e) => setCourseOfStudy(e.target.value)}
+                          readOnly
                           className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         />
                       </label>
@@ -337,6 +341,7 @@ const SignupScreen = () => {
                         autoComplete='class'
                         value={classLevel}
                         // onChange={(e) => setClassLevel(e.target.value)}
+                        readOnly
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       >
                         <option value='jss1'>JSS 1</option>
@@ -364,6 +369,7 @@ const SignupScreen = () => {
                       autoComplete='school-address'
                       value={schoolAddress}
                       // onChange={(e) => setSchoolAddress(e.target.value)}
+                      readOnly
                       className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                     />
                   </div>
@@ -401,6 +407,7 @@ const SignupScreen = () => {
                       autoComplete='specialization'
                       value={areaOfSpecialization}
                       // onChange={(e) => setAreaOfSpecialization(e.target.value)}
+                      readOnly
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='programming'>Programming</option>
@@ -422,6 +429,7 @@ const SignupScreen = () => {
                       autoComplete='language'
                       value={language}
                       // onChange={(e) => setLanguage(e.target.value)}
+                      readOnly
                       className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                     >
                       <option value='javascript'>JavaScript</option>
@@ -459,4 +467,4 @@ const SignupScreen = () => {
   );
 };
 
-export default SignupScreen;
+export default UserDetailsScreen;

@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Popover } from '@headlessui/react';
 import { Link, NavLink } from 'react-router-dom';
@@ -105,6 +105,8 @@ export default function Example() {
   const onMouseUpHandler = () => {
     setLoginModal(false);
   };
+
+  useEffect(() => {});
 
   return (
     <>

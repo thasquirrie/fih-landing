@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Admin = require('../models/Admin');
+const { updateUser } = require('./userController');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -72,8 +73,6 @@ exports.logout = (req, res) => {
   });
 };
 
-console.log('Result', false || false);
-
 exports.protect = catchAsync(async (req, res, next) => {
   let token = '';
 
@@ -129,6 +128,37 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) {
+      newObj[el] = obj[el];
+    }
+  });
+  return newObj;
+};
+
+exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  const allowedFields = ['name', 'email', 'username'];
+
+  const filteredFields = filterObj(req.body, ...allowedFields);
+
+  const updatedUser = await Admin.findByIdAndUpdate(
+    req.admin.id,
+    filteredFields,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  const admin = updatedUser;
+
+  createSendToken(admin, 200, res);
+});
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
