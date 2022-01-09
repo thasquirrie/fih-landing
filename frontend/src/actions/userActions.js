@@ -58,7 +58,7 @@ export const login = (data) => async (dispatch) => {
       },
     } = await axios({
       method: 'POST',
-      url: 'http://localhost:4000/api/v1/users/login',
+      url: '/api/v1/users/login',
       data,
       config,
     });
@@ -104,7 +104,7 @@ export const signup = (data) => async (dispatch) => {
       },
     } = await axios({
       method: 'POST',
-      url: 'http://localhost:4000/api/v1/users/signup',
+      url: '/api/v1/users/signup',
       data,
       config,
     });
@@ -148,7 +148,7 @@ export const getStudentDetails = (id) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `http://localhost:4000/api/v1/users/${id}`,
+      url: `/api/v1/users/${id}`,
       headers,
     });
 
@@ -193,7 +193,7 @@ export const getVolunteersDetails = (id) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `http://localhost:4000/api/v1/users/${id}`,
+      url: `/api/v1/users/${id}`,
       headers,
     });
 
@@ -236,7 +236,7 @@ export const getMyDetails = () => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `http://localhost:4000/api/v1/users/me`,
+      url: `/api/v1/users/me`,
       headers,
     });
 
@@ -284,7 +284,7 @@ export const updateUserDetails = (data) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'PATCH',
-      url: `http://localhost:4000/api/v1/users/update-me`,
+      url: `/api/v1/users/update-me`,
       headers,
       data,
     });
@@ -330,7 +330,7 @@ export const updateUserPassword = (data) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'PATCH',
-      url: `http://localhost:4000/api/v1/users/update-password`,
+      url: `/api/v1/users/update-password`,
       headers,
       data,
     });
@@ -376,7 +376,7 @@ export const getAllVolunteers = () => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `http://localhost:4000/api/v1/users/volunteers`,
+      url: `/api/v1/users/volunteers`,
       headers,
     });
 
@@ -420,7 +420,7 @@ export const getAllStudents = () => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'GET',
-      url: `http://localhost:4000/api/v1/users/students`,
+      url: `/api/v1/users/students`,
       headers,
     });
 
@@ -463,7 +463,7 @@ export const createUser = (data) => async (dispatch, getState) => {
       },
     } = await axios({
       method: 'POST',
-      url: `http://localhost:4000/api/v1/users/`,
+      url: `/api/v1/users/`,
       headers,
       data,
     });
