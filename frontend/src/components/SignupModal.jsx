@@ -7,8 +7,8 @@ import { signup } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
 
-export default function Modal({ modal }) {
-  const [open, setOpen] = useState(true);
+export default function Modal({ modal, toggle }) {
+  const [open, setOpen] = useState(toggle);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -20,6 +20,7 @@ export default function Modal({ modal }) {
   const userSignup = useSelector((state) => state.userSignup);
 
   const { error, loading, success, userInfo } = userSignup;
+  console.log(toggle);
 
   useEffect(() => {
     if (success) {
@@ -73,10 +74,15 @@ export default function Modal({ modal }) {
             leaveFrom='opacity-100 translate-y-0 sm:scale-100'
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
-            <div className='inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full sm:p-6'>
+            <div
+              className='inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full sm:p-6'
+              onClose={() => {
+                console.log('Hey!');
+              }}
+            >
               <div>
-                <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
-                  <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+                <div className='bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
+                  <div className='max-w-md sm:mx-auto sm:w-full sm:max-w-md'>
                     <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
                       Sign up for an account
                     </h2>

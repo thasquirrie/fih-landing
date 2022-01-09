@@ -13,6 +13,7 @@ import { USER_LOGIN_RESET } from '../constants/userConstants';
 export default function Modal({ history }) {
   const [open, setOpen] = useState(true);
   const [signupModal, setSignupModal] = useState(false);
+  const [signup, setSignup] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [showError, setShowError] = useState(false);
@@ -45,16 +46,20 @@ export default function Modal({ history }) {
 
   const onClickHandler = () => {
     setSignupModal(true);
+    setSignup(true);
     setOpen(false);
   };
 
   const onMouseUpHandler = () => {
     setSignupModal(false);
+    // setSignup(false);
   };
+
+  console.log({ signup });
 
   return (
     <>
-      {signupModal && <Signup />}
+      {signupModal && signup && <Signup toggle={signup} />}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as='div'
@@ -92,8 +97,8 @@ export default function Modal({ history }) {
             >
               <div className='inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full sm:p-6'>
                 <div>
-                  <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
-                    <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+                  <div className='bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+                    <div className='msm:mx-auto sm:w-full sm:max-w-md'>
                       <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
                         Sign in to your account
                       </h2>

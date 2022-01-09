@@ -126,7 +126,7 @@ export default function JoinCTA() {
                 below to explore the opportunities available to you.
               </p>
               <Link
-                className='block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto'
+                className='block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto disabled:cursor-wait'
                 to='#'
               >
                 Coming soon...
