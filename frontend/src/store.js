@@ -14,12 +14,6 @@ import {
   adminDetailsReducer,
 } from './reducers/userReducers';
 
-import {
-  createTransactionReducer,
-  transactionDetailsReducer,
-  transactionListReducer,
-} from './reducers/transactionReducers';
-
 const reducer = combineReducers({
   allStudents: allStudentsReducer,
   allVolunteers: allVolunteersReducer,
@@ -31,9 +25,6 @@ const reducer = combineReducers({
   userSignup: userSignupReducer,
   userUpdateDetails: userUpdateDetailsReducer,
   userUpdatePassword: userUpdatePasswordReducer,
-  createTransaction: createTransactionReducer,
-  transactionDetails: transactionDetailsReducer,
-  transactionList: transactionListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

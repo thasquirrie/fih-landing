@@ -309,9 +309,8 @@ export const updateUserDetails = (data) => async (dispatch, getState) => {
   }
 };
 
-export const userUpdatePassword = (data) => async (dispatch, getState) => {
+export const updateUserPassword = (data) => async (dispatch, getState) => {
   try {
-    console.log('HI');
     dispatch({ type: USER_UPDATE_PASSWORD_REQUEST });
 
     const {
@@ -320,16 +319,14 @@ export const userUpdatePassword = (data) => async (dispatch, getState) => {
 
     // const config = {
     const headers = {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${userInfo.token}`,
     };
     // };
 
-    console.log(data);
-
     const {
       data: {
-        data: { admin },
+        data: { token },
       },
     } = await axios({
       method: 'PATCH',
@@ -338,15 +335,16 @@ export const userUpdatePassword = (data) => async (dispatch, getState) => {
       data,
     });
 
-    console.log({ admin });
+    // console.log({ token });
 
     dispatch({
       type: USER_UPDATE_PASSWORD_SUCCESS,
-      payload: admin,
+      payload: token,
     });
 
     // localStorage.setItem('userInfo', JSON.stringify({ user, token }));
   } catch (error) {
+    console.log(error);
     dispatch({
       type: USER_UPDATE_PASSWORD_FAIL,
       payload:

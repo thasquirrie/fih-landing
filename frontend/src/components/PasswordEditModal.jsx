@@ -3,9 +3,10 @@ import { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
 import Input from './Input';
-import { signup } from '../actions/userActions';
+import { logout, updateUserPassword } from '../actions/userActions';
 import RegistrationAlertSuccess from './RegistrationAlertSuccess';
 import RegistrationAlertError from './RegistrationAlertError';
+import { USER_UPDATE_PASSWORD_RESET } from '../constants/userConstants.js';
 // import { useLocation } from 'react-router';
 // import { useHistory } from 'react-router-dom';
 
@@ -17,22 +18,31 @@ export default function Modal({ modal, userInfo }) {
 
   const dispatch = useDispatch();
 
-  const userSignup = useSelector((state) => state.userSignup);
+  const userUpdatePassword = useSelector((state) => state.userUpdatePassword);
 
-  const { error, loading, success } = userSignup;
+  const { error, loading, success } = userUpdatePassword;
 
   useEffect(() => {
     if (success) {
       window.setTimeout(() => {
         setOpen(false);
+        dispatch(logout());
+        dispatch({ type: USER_UPDATE_PASSWORD_RESET });
       }, 3000);
     }
-  }, [success]);
+    if (error) {
+      window.setTimeout(() => {
+        dispatch({ type: USER_UPDATE_PASSWORD_RESET });
+      }, 3000);
+    }
+  }, [dispatch, error, success]);
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    console.log({ currentPassword, newPassword, confirmNewPassword });
-    dispatch(signup({ currentPassword, newPassword, confirmNewPassword }));
+
+    dispatch(
+      updateUserPassword({ currentPassword, newPassword, confirmNewPassword })
+    );
   };
 
   // console.log(modal);
@@ -130,7 +140,7 @@ export default function Modal({ modal, userInfo }) {
                             message={'Password changed successfully'}
                           />
                         )}
-                        {error && <RegistrationAlertError />}
+                        {error && <RegistrationAlertError message={error} />}
                       </form>
                     </div>
                   </div>

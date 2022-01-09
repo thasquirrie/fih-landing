@@ -26,9 +26,6 @@ exports.getUsersByRole = catchAsync(async (req, res) => {
     filter = { role: 'volunteer' };
   }
 
-  console.log({ filterWord });
-  console.log({ filter });
-
   const users = await User.find(filter);
 
   res.status(200).json({
@@ -91,8 +88,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
     schoolAddress,
   } = req.body;
 
-  console.log(req.body);
-
   const details = {
     role,
     firstName,
@@ -111,10 +106,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     schoolAddress,
   };
 
-  console.log({ details });
-
   const newUser = await User.create(details);
-  console.log({ newUser });
 
   res.status(201).json({
     status: 'success',
@@ -126,15 +118,12 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
 exports.getMe = catchAsync(async (req, res, next) => {
   req.params.id = req.admin.id;
-  console.log('ID:', req.params.id);
+
   next();
 });
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const admin = await Admin.findById(req.params.id);
-
-  console.log({ admin });
-  console.log(req.body);
 
   if (!admin)
     return next(
@@ -145,8 +134,6 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-
-  console.log({ updatedUser });
 
   updatedUser.password = undefined;
 
@@ -170,7 +157,6 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const allowedFields = ['name', 'email', 'username'];
 
   const filteredFields = filterObj(req.body, ...allowedFields);
