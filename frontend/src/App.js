@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import ContactScreen from './screens/ContactScreen';
 import AllUsersScreen from './screens/AllUsersScreen';
 import AllVolunteersScreen from './screens/AllVolunteersScreen';
+import UserDetailsScreen from './screens/UserDetailsScreen';
 
 function App() {
   return (
@@ -20,6 +21,11 @@ function App() {
               <Route path='/contact' element={<ContactScreen />} />
               <Route path='/:id' element={<HomeScreen />} exact />
               <Route path='/students' element={<AllUsersScreen />} exact />
+              <Route
+                path='/students/:id'
+                element={<UserDetailsScreen />}
+                exact
+              />
               <Route
                 path='/volunteers'
                 element={<AllVolunteersScreen />}

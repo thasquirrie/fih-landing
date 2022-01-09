@@ -1,4 +1,8 @@
 import {
+  ADMIN_DETAILS_FAIL,
+  ADMIN_DETAILS_REQUEST,
+  ADMIN_DETAILS_RESET,
+  ADMIN_DETAILS_SUCCESS,
   CREATE_USER_FAIL,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
@@ -25,6 +29,7 @@ import {
   USER_UPDATE_PASSWORD_REQUEST,
   USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
+  USER_UPDATE_RESET,
   USER_UPDATE_SUCCESS,
   VOLUNTEER_DETAILS_FAIL,
   VOLUNTEER_DETAILS_REQUEST,
@@ -92,6 +97,21 @@ export const volunteerDetailsReducer = (state = { user: {} }, action) => {
   }
 };
 
+export const adminDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case ADMIN_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case ADMIN_DETAILS_SUCCESS:
+      return { loading: false, admin: action.payload };
+    case ADMIN_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    case ADMIN_DETAILS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
 export const userUpdateDetailsReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_UPDATE_REQUEST:
@@ -100,6 +120,8 @@ export const userUpdateDetailsReducer = (state = {}, action) => {
       return { loading: false, success: true, admin: action.payload };
     case USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_UPDATE_RESET:
+      return {};
     default:
       return state;
   }

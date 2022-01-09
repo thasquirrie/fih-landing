@@ -171,7 +171,10 @@ export default function Example() {
             >
               {students.map((candidate) => (
                 <li key={candidate.email}>
-                  <Link to='#' className='group block'>
+                  <Link
+                    to={`/students/${candidate._id}`}
+                    className='group block'
+                  >
                     <div className='flex items-center py-5 px-4 sm:py-6 sm:px-0'>
                       <div className='min-w-0 flex-1 flex items-center'>
                         <div className='flex-shrink-0'>
