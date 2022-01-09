@@ -22,9 +22,6 @@ export default function Modal({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
 
   let { error, loading, success } = userLogin;
-  console.log({ error, success });
-
-  console.log({ open });
 
   useEffect(() => {
     if (success) {
@@ -42,9 +39,8 @@ export default function Modal({ history }) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log({ email, password });
+
     dispatch(login({ email, password }));
-    console.log('Confirmed!');
   };
 
   const onClickHandler = () => {

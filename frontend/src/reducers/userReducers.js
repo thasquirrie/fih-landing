@@ -27,6 +27,7 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_PASSWORD_FAIL,
   USER_UPDATE_PASSWORD_REQUEST,
+  USER_UPDATE_PASSWORD_RESET,
   USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_RESET,
@@ -132,9 +133,11 @@ export const userUpdatePasswordReducer = (state = {}, action) => {
     case USER_UPDATE_PASSWORD_REQUEST:
       return { loading: true };
     case USER_UPDATE_PASSWORD_SUCCESS:
-      return { loading: false, admin: action.payload };
+      return { loading: false, success: true, token: action.payload };
     case USER_UPDATE_PASSWORD_FAIL:
       return { loading: false, error: action.payload };
+    case USER_UPDATE_PASSWORD_RESET:
+      return {};
     default:
       return state;
   }

@@ -61,7 +61,7 @@ export default function Modal({ modal, userInfo }) {
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    console.log({ email, username, name });
+    
     dispatch(updateUserDetails({ email, username, name }));
   };
 
@@ -105,7 +105,7 @@ export default function Modal({ modal, userInfo }) {
           >
             <div className='inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full sm:p-6'>
               <div>
-                <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
+                <div className='bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8'>
                   <div className='sm:mx-auto sm:w-full sm:max-w-md'>
                     <h2 className='mt-6 text-center text-xl sm:text-3xl font-extrabold text-gray-900'>
                       Edit your details

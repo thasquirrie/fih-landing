@@ -53,8 +53,6 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const admin = await Admin.findOne({ email }).select('+password');
 
-  console.log({ password }, admin.password);
-
   if (!admin || !(await admin.comparePasswords(password, admin.password)))
     return next(new AppError('Wrong email or password', 400));
 
@@ -141,7 +139,6 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const allowedFields = ['name', 'email', 'username'];
 
   const filteredFields = filterObj(req.body, ...allowedFields);
@@ -170,10 +167,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
       new AppError('You need to provide all required input fields', 400)
     );
 
-  if (!(await admin.comparePassword(currentPassword, admin.password)))
+  if (!(await admin.comparePasswords(currentPassword, admin.password)))
     return next(new AppError('Password incorrect', 401));
 
-  admin.password = newPasssword;
+  admin.password = newPassword;
   admin.confirmPassword = confirmNewPassword;
   await admin.save();
 
@@ -181,7 +178,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    token,
+    data: { token },
     message: 'Password updated successfully',
   });
 });
